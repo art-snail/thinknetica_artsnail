@@ -1,0 +1,45 @@
+AllCops:
+  # Include common Ruby source files.
+  Include:
+    - 'app/**/*.rb'
+    - 'config/**/*.rb'
+    - 'lib/**/*.rb'
+    - 'lib/**/*.rake'
+    - '**/Gemfile'
+    - '**/Rakefile'
+  Exclude:
+    - 'vendor/**/*'
+    - 'spec/**/*'
+    - 'db/*.rb'
+    - 'bin/**/*'
+#  Rails:
+#      Enabled: true
+  DisplayCopNames: true
+  StyleGuideCopsOnly: true
+
+Style/Documentation:
+  Exclude:
+    - 'lib/**/version.rb'
+
+Metrics/LineLength:
+  Max: 100
+
+Metrics/MethodLength:
+  Max: 10
+
+Metrics/AbcSize:
+  # The ABC size is a calculated magnitude, so this number can be an Integer or
+  # a Float.
+  Max: 20
+
+Style/BarePercentLiterals:
+  Enabled: false
+
+Style/CommentAnnotation:
+  Enabled: false
+
+Style/RaiseArgs:
+  Enabled: false
+
+Style/StringLiterals:
+  Enabled: false
