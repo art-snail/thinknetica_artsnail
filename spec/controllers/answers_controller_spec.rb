@@ -6,8 +6,8 @@ RSpec.describe AnswersController, type: :controller do
   describe 'POST #create' do
     let(:question) { create :question }
 
-    context 'Валидные данные' do
-      it 'Новый ответ сохраняется в базе данных' do
+    context 'valid data' do
+      it 'a new answer is stored in the database' do
         expect { post :create, params: { answer: attributes_for(:answer), question_id: question } }
             .to change(question.answers, :count).by(1)
       end
@@ -17,14 +17,14 @@ RSpec.describe AnswersController, type: :controller do
       end
     end
 
-    context 'Не валидные данные' do
-      it 'Новый ответ не сохраняется в базе данных' do
+    context 'not valid data' do
+      it 'the new answer is not stored in the database' do
         expect { post :create, params: { answer: attributes_for(:invalid_answer), question_id: question } }
             .to_not change(Answer, :count)
       end
-      it 'redirects to question show view' do
+      it 're-renders question show view' do
         post :create, params: { answer: attributes_for(:invalid_answer), question_id: question }
-        expect(response).to redirect_to question_path(question)
+        expect(response).to render_template('questions/show')
       end
     end
   end
