@@ -20,7 +20,7 @@ RSpec.describe QuestionsController, type: :controller do
   describe 'GET #show' do
     before { get :show, params: { id: question } }
 
-    it 'Устанавливает запрошенный вопрос в переменную' do
+    it 'Sets the requested question to a variable' do
       expect(assigns(:question)).to eq question
     end
 
@@ -32,7 +32,7 @@ RSpec.describe QuestionsController, type: :controller do
   describe 'GET #new' do
     before { get :new }
 
-    it 'Создаёт новый вопрос и присваивает его переменной' do
+    it 'sets the requested question to a variable question' do
       expect(assigns(:question)).to be_a_new(Question)
     end
 
@@ -44,7 +44,7 @@ RSpec.describe QuestionsController, type: :controller do
   describe 'GET #edit' do
     before { get :edit, params: { id: question } }
 
-    it 'Устанавлить запрошенный вопрос в переменную' do
+    it 'sets the requested question to a variable' do
       expect(assigns(:question)).to eq question
     end
 
@@ -54,8 +54,8 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'POST #create' do
-    context 'Валидные данные' do
-      it 'Новый вопрос сохраняется в базе данных' do
+    context 'with valid attributes' do
+      it 'a new question is stored in the database' do
         expect { post :create, params: { question: attributes_for(:question) } }
             .to change(Question, :count).by(1)
       end
@@ -65,8 +65,8 @@ RSpec.describe QuestionsController, type: :controller do
       end
     end
 
-    context 'Не валидные данные' do
-      it 'Новый вопрос не сохраняется в базе данных' do
+    context 'with invalid attributes' do
+      it 'the new question is not saved in the database' do
         expect { post :create, params: { question: attributes_for(:invalid_question) } }
             .to_not change(Question, :count)
       end
@@ -78,13 +78,13 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'PATCH #update' do
-    context 'Валидные данные' do
-      it 'Устанавлить запрошенный вопрос в переменную' do
+    context 'with valid attributes' do
+      it 'sets the requested question to a variable' do
         patch :update, params: { id: question, question: attributes_for(:question) }
         expect(assigns(:question)).to eq question
       end
 
-      it 'Данные изменяются' do
+      it 'data is changing' do
         patch :update, params: { id: question, question: { title: 'new title', body: 'new body' } }
         question.reload
         expect(question.title).to eq 'new title'
@@ -97,9 +97,9 @@ RSpec.describe QuestionsController, type: :controller do
       end
     end
 
-    context 'Не валидные данные' do
+    context 'with invalid attributes' do
       before { patch :update, params: { id: question, question: { title: 'new title', body: nil } } }
-      it 'Данные не изменяются' do
+      it 'data does not change' do
         question.reload
         expect(question.title).to eq 'MyString'
         expect(question.body).to eq 'MyText'
@@ -111,7 +111,7 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    it 'Вопрос удаляется' do
+    it 'the question is deleted' do
       question
       expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
     end
