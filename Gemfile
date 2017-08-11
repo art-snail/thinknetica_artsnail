@@ -33,6 +33,7 @@ end
 
 group :test do
   gem 'shoulda-matchers'
+  gem 'launchy'
 end
 
 group :development do
