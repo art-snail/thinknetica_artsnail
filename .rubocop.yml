@@ -11,7 +11,9 @@ AllCops:
     - 'vendor/**/*'
     - 'spec/**/*'
     - 'db/*.rb'
+    - 'db/migrate/*.rb'
     - 'bin/**/*'
+    - 'config/initializers/devise.rb'
   DisplayCopNames: true
   StyleGuideCopsOnly: true
 
