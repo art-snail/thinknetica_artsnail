@@ -1,0 +1,17 @@
+doctype html
+html lang="ru"
+  head
+    meta charset="utf-8"
+    title QnA
+
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => 'reload'
+    = javascript_include_tag 'application', 'data-turbolinks-track' => 'reload'
+    
+    = csrf_meta_tags
+
+  body
+    - if notice
+      span#notice = notice
+    - if alert
+      span#alert = alert
+    = yield
