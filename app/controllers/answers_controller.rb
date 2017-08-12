@@ -3,6 +3,7 @@ class AnswersController < ApplicationController
     @question = Question.find(params[:question_id])
     @answer = @question.answers.build(answer_params)
     if @answer.save
+      flash[:notice] = 'Ваш вопрос успешно создан'
       redirect_to question_path(@question)
     else
       render 'questions/show'
