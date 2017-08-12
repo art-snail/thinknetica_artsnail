@@ -1,2 +1,7 @@
 h2 Вопрос: #{@question.title}
 p = @question.body
+
+#answers
+  = render @question.answers
+
+= render 'answers/form'

@@ -1,0 +1,4 @@
+= form_for [@question, @answer] do |f|
+  = f.label :body, 'Ваш ответ'
+  = f.text_area :body, rows: 6
+  = f.submit 'Ответить'
