@@ -22,10 +22,11 @@ feature 'Create answer', %q{
     end
   end
 
-  # scenario 'An unauthenticated user creates a question' do
-  #   visit questions_path
-  #   click_on 'Ask question'
-  #
-  #   expect(page).to have_content 'You need to sign in or sign up before continuing.'
-  # end
+  scenario 'An unauthenticated user creates a answer' do
+    visit question_path question
+    fill_in 'Ваш ответ', with: 'Мой ответ'
+    click_on 'Ответить'
+
+    expect(page).to have_content 'You need to sign in or sign up before continuing.'
+  end
 end

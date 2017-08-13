@@ -6,9 +6,9 @@ feature 'Show question', %q{
 } do
 
   scenario 'show question' do
-    visit question_path
+    visit questions_path
 
-    expect(current_path).to eq question_path
+    expect(current_path).to eq questions_path
     expect(page).to have_content 'Список вопросов'
   end
 end
