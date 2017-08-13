@@ -1,6 +1,9 @@
 h2 Вопрос: #{@question.title}
 p = @question.body
 
+- if @question.user === current_user
+  = link_to 'Удалить вопрос', question_path(@question), method: :delete
+
 #answers
   = render @question.answers
 
