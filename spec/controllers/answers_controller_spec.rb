@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
-  let(:question) { create(:question) }
-
   describe 'POST #create' do
+    sign_in_user
+    
     let(:question) { create :question }
 
     context 'valid data' do
