@@ -1,1 +1,3 @@
 p = answer.body
+- if current_user && answer.user === current_user
+  = link_to 'Удалить ответ', [answer.question, answer], method: :delete
