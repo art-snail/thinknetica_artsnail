@@ -1,7 +1,7 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
   before_action :load_answer, only: [:destroy]
-  before_action :load_question, only: %i[create destroy]
+  before_action :load_question, only: [:create]
 
   def create
     @answer = @question.answers.build(answer_params)
@@ -15,14 +15,13 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    if current_user == @answer.user
+    if current_user.author_of?(@answer.user.id)
       @answer.destroy
       flash[:notice] = 'Ответ успешно удалён.'
-      redirect_to question_path @question
     else
       flash[:alert] = 'У Вас нет прав для данной операции'
-      redirect_to question_path @question
     end
+    redirect_to question_path @answer.question
   end
 
   private

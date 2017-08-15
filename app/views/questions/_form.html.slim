@@ -1,4 +1,5 @@
 = form_for @question do |f|
+  = render 'common/validation_error_message', object: f.object
   = f.label :title
   = f.text_field :title
   = f.label :body

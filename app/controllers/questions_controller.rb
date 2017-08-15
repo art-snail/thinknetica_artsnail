@@ -17,8 +17,7 @@ class QuestionsController < ApplicationController
   def edit; end
 
   def create
-    @user = current_user
-    @question = @user.questions.build(question_params)
+    @question = current_user.questions.build(question_params)
     if @question.save
       flash[:notice] = 'Your question successfully created'
       redirect_to @question
@@ -36,13 +35,13 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    if current_user == @question.user
+    if current_user.author_of?(@question.user.id)
       @question.destroy
       flash[:notice] = 'Вопрос успешно удалён.'
       redirect_to questions_path
     else
       flash[:alert] = 'У Вас нет прав для данной операции'
-      redirect_to question_path @question
+      redirect_to @question
     end
   end
 
