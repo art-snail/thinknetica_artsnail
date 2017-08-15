@@ -8,7 +8,7 @@ feature 'Create answer', %q{
   let(:user) { create(:user)}
   let(:question) { create(:question) }
 
-  scenario 'Authenticated user creates a answer' do
+  scenario 'Authenticated user creates a answer with valid attributes' do
     sign_in(user)
 
     visit question_path question
@@ -20,6 +20,17 @@ feature 'Create answer', %q{
     within '#answers' do
       expect(page).to have_content 'Мой ответ'
     end
+    end
+
+  scenario 'Authenticated user creates a answer with invalid attributes' do
+    sign_in(user)
+
+    visit question_path question
+    fill_in 'Ваш ответ', with: nil
+    click_on 'Ответить'
+
+
+    expect(page).to have_content "Body can't be blank"
   end
 
   scenario 'An unauthenticated user creates a answer' do

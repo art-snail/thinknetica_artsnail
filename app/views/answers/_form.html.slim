@@ -1,4 +1,5 @@
 = form_for [@question, @answer] do |f|
+  = render 'common/validation_error_message', object: f.object
   = f.label :body, 'Ваш ответ'
   = f.text_area :body, rows: 6
   = f.submit 'Ответить'
