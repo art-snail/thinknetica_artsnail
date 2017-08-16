@@ -55,10 +55,11 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     context 'Not the author tries to remove the answer' do
+      sign_in_other_user
       it 'the answer not remove' do
         answer
         expect {delete :destroy, params: {question_id: question, id: answer}}
-            .to change(Answer, :count)
+            .to_not change(Answer, :count)
       end
 
       it 'redirect show question' do

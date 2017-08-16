@@ -1,4 +1,4 @@
 p = answer.body
--unless answer.id.blank?
-  - if current_user && current_user.author_of?(answer.user.id)
+-if answer.persisted?
+  - if current_user && current_user.author_of?(answer)
     = link_to 'Удалить ответ', answer, method: :delete
