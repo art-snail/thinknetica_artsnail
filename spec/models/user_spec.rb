@@ -4,10 +4,15 @@ RSpec.describe User, type: :model do
   it { should have_many(:questions).dependent(:destroy) }
   it { should have_many(:answers) }
 
-  it 'check author_of?' do
-    user = User.new(email: 'test@test.te', password: '12345678')
-    question = Question.new(user: user, title: 'question', body: 'text')
+  let(:user) { create(:user)}
+  let(:question) {create(:question, user: user)}
+  let(:other_user) { create(:user) }
 
-    expect(user.author_of?(question.user.id)).to eq true
+  it 'check author_of? for author' do
+    expect(user).to be_author_of(question)
+  end
+
+  it 'check author_of? for not author' do
+    expect(other_user).to_not be_author_of(question)
   end
 end

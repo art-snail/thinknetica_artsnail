@@ -1,7 +1,7 @@
 h2 Вопрос: #{@question.title}
 p = @question.body
 
-- if current_user && current_user.author_of?(@question.user.id)
+- if current_user && current_user.author_of?(@question)
   = link_to 'Удалить вопрос', question_path(@question), method: :delete
 
 #answers
