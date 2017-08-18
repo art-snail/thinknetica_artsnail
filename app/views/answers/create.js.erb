@@ -5,6 +5,6 @@
   <% end %>
 <% else %>
   $('.answer-errors').empty();
-  $('#answers').append("<%= j render 'answers/answer', answer: @answer %>");
+  $('#answers').append("<%= j render @answer %>");
   $('#answer_body').val('');
 <% end %>
