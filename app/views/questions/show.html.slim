@@ -5,6 +5,7 @@ p = @question.body
   = link_to 'Удалить вопрос', question_path(@question), method: :delete
 
 #answers
-  = render @question.answers
+  = render 'answers'
+  .answer-errors
 
 = render 'answers/form'
