@@ -1,4 +1,4 @@
-require 'rails_helper'
+require_relative 'acceptance_helper'
 
 feature 'Guest registration', %q{
   A guest can register on the system to ask questions and answers

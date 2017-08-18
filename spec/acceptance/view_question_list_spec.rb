@@ -1,4 +1,4 @@
-require 'rails_helper'
+require_relative 'acceptance_helper'
 
 feature 'Show questions', %q{
   Any user can view the question list to select the one that interests him.
