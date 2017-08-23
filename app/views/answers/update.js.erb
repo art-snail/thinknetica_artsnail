@@ -1,17 +1,10 @@
 <% if @answer.errors.present? %>
   <% @answer.errors.full_messages.each do |message| %>
-    $('.answer-errors').empty();
-    $('.answer-errors').html(' <%= j message  %>');
+  $('#answer-errors-' + <%= @answer.id %>).empty();
+  $('#answer-errors-' + <%= @answer.id %>).html(' <%= j message  %>');
   <% end %>
 <% else %>
-  $('.answer-errors').empty();
-//  $('#answers').append("<%= j render @answer %>");
+  $('#answer-errors-' + <%= @answer.id %>).empty();
   $('#answer-<%= @answer.id %>').empty()
   $('#answer-<%= @answer.id %>').html("<%= j render @answer %>");
-//  $('.edit-answer-link').click(function(e) {
-//      e.preventDefault();
-//      $(this).hide();
-//      answer_id = $(this).data('answerId');
-//      $('form#edit-answer-' + answer_id).show();
-//  });
 <% end %>

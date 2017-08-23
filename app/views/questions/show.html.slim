@@ -1,8 +1,14 @@
-h2 Вопрос: #{@question.title}
-p = @question.body
+h2 Вопрос:
+#question
+  h3.question-title= @question.title
+  p.question-body= @question.body
 
 - if current_user && current_user.author_of?(@question)
+  = link_to 'Редактировать вопрос', '', class: 'edit-question-link', data: {question_id: @question.id}
+  '&nbsp; |
   = link_to 'Удалить вопрос', question_path(@question), method: :delete
+  #edit-question
+    = render 'form'
 br
 br
 #answers

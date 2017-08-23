@@ -18,7 +18,7 @@ feature 'Answer editing', %{
     visit question_path(question)
 
     within '#answers' do
-      pry
+      # pry
       expect(page).to have_link 'Редактировать ответ'
       expect(page).to_not have_selector 'textarea'
     end

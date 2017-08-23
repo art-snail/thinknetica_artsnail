@@ -1,0 +1,12 @@
+<% if @question.errors.present? %>
+  $('.question-errors').empty();
+  <% @question.errors.full_messages.each do |message| %>
+    $('.question-errors').append(' <%= j message  %><br>');
+  <% end %>
+<% else %>
+  $('.question-errors').empty();
+  $('.question-title').html('<%= j @question.title %>');
+  $('.question-body').html('<%= j @question.body %>');
+  $('.edit_question').hide()
+  $('.edit-question-link').show()
+<% end %>

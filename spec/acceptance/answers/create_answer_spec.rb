@@ -28,6 +28,7 @@ feature 'Create answer', %q{
     fill_in 'Ваш ответ', with: nil
     click_on 'Ответить'
 
+    # pry
     expect(page).to have_content "Body can't be blank"
   end
 

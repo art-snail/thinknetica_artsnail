@@ -1,6 +1,6 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
-  before_action :load_answer, only: %i[destroy]
+  before_action :load_answer, only: %i[update destroy]
   before_action :load_question, only: [:create]
 
   def create
@@ -10,9 +10,7 @@ class AnswersController < ApplicationController
   end
 
   def update
-    @answer = Answer.find(params[:id])
     @answer.update(answer_params)
-    @question = @answer.question
   end
 
   def destroy
