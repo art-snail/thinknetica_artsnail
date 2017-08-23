@@ -12,7 +12,7 @@ gem 'jbuilder', '~> 2.5'
 gem 'pg', '~> 0.18'
 gem 'puma', '~> 3.7'
 gem 'rails', '~> 5.1.3'
-gem 'rubocop', require: false
+
 gem 'sass-rails', '~> 5.0'
 gem 'slim-rails'
 gem 'turbolinks', '~> 5'
@@ -20,18 +20,20 @@ gem 'uglifier', '>= 1.3.0'
 gem 'rails-controller-testing'
 gem 'devise'
 gem 'jquery-rails'
+# gem 'jquery-ui-rails'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   # Adds support for Capybara system testing and selenium driver
-  gem 'capybara', '~> 2.13'
-  # gem 'selenium-webdriver'
+  gem 'capybara', '~> 2.15.1'
 
   gem 'factory_girl_rails'
   gem 'rspec-rails'
   gem 'database_cleaner'
   gem 'capybara-webkit'
+  gem 'rubocop', require: false
+  gem 'pry-rails'
 end
 
 group :test do

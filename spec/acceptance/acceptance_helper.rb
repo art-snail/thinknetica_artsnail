@@ -1,11 +1,15 @@
 require 'rails_helper'
 
 RSpec.configure do |config|
+  Capybara.server_port = 3030
+
+  # Capybara.default_max_wait_time = 15
+
+  config.use_transactional_fixtures = false
+
   config.include AcceptanceMacros, type: :feature
 
   Capybara.javascript_driver = :webkit
-
-  config.use_transactional_fixtures = false
 
   config.before(:suite) do
     DatabaseCleaner.clean_with(:truncation)

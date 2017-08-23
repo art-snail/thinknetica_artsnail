@@ -1,4 +1,4 @@
-require_relative 'acceptance_helper'
+require_relative '../acceptance_helper'
 
 feature 'Show answers', %q{
   Any user can view the list of answers to get help on an issue of interest to him.

@@ -3,9 +3,10 @@ p = @question.body
 
 - if current_user && current_user.author_of?(@question)
   = link_to 'Удалить вопрос', question_path(@question), method: :delete
-
+br
+br
 #answers
   = render @question.answers
 .answer-errors
-
+br
 = render 'answers/form'
