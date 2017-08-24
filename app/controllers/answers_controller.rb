@@ -20,7 +20,6 @@ class AnswersController < ApplicationController
     else
       flash[:alert] = 'У Вас нет прав для данной операции'
     end
-    redirect_to question_path @answer.question
   end
 
   private

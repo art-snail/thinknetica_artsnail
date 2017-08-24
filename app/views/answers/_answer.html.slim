@@ -1,10 +1,12 @@
+.notice
+.alert
 - if answer.persisted?
   div id="answer-#{answer.id}"
     p = answer.body
     - if current_user && current_user.author_of?(answer)
       = link_to 'Редактировать ответ', '', class: 'edit-answer-link', data: {answer_id: answer.id}
       '&nbsp; |
-      = link_to 'Удалить ответ', answer, method: :delete
+      = link_to 'Удалить ответ', answer, method: :delete, remote: true, data: {answer_id: answer.id}
     .edit
       = form_for answer, remote: true, html: { id: "edit-answer-#{answer.id}"} do |f|
         = f.label :body, 'Answer'

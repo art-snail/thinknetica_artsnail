@@ -6,5 +6,5 @@
 <% else %>
   $('.answer-errors').empty();
   $('#answers').append("<%= j render @answer %>");
-  $('#answer_body').val('');
+  $('textarea#answer_body').val('');
 <% end %>

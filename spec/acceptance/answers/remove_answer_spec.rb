@@ -8,15 +8,15 @@ feature 'Remove answer', %q{
   let!(:answer) { create(:answer, question: question, user: user) }
   let(:user_not_author) { create(:user)}
 
-  scenario 'The author removes the answer' do
+  scenario 'The author removes the answer', js: true do
     sign_in(user)
 
     visit question_path question
 
     click_on 'Удалить ответ'
 
-    expect(page).to have_content 'Ответ успешно удалён.'
     within '#answers' do
+      expect(page).to have_content 'Ответ успешно удалён.'
       expect(page).to_not have_content 'MyText'
     end
     expect(current_path).to eq question_path question
