@@ -28,11 +28,6 @@ class QuestionsController < ApplicationController
 
   def update
     @question.update(question_params)
-    # if @question.update(question_params)
-    #   redirect_to @question
-    # else
-    #   render :edit
-    # end
   end
 
   def destroy

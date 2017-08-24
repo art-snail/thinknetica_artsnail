@@ -13,7 +13,7 @@ feature 'Answer editing', %{
     expect(page).to_not have_link 'Редактировать ответ'
   end
 
-  scenario 'The author tries to edit the answer', js: true do
+  scenario 'The author tries to edit the answer with valid attributes', js: true do
     sign_in user
     visit question_path(question)
 
@@ -37,6 +37,19 @@ feature 'Answer editing', %{
       expect(page).to_not have_content answer.body
       expect(page).to have_content 'edited answer'
       expect(page).to_not have_selector 'textarea'
+    end
+  end
+
+  scenario 'The author tries to edit the answer with invalid attributes', js: true do
+    sign_in user
+    visit question_path(question)
+    click_link 'Редактировать ответ'
+
+    within '#answers' do
+      fill_in 'Answer', with: nil
+      click_on 'Save'
+
+      expect(page).to have_content "Body can't be blank"
     end
   end
 
