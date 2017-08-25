@@ -19,7 +19,7 @@ feature 'Create answer', %q{
     within '#answers' do
       expect(page).to have_content 'Мой ответ'
     end
-    end
+  end
 
   scenario 'Authenticated user creates a answer with invalid attributes', js: true do
     sign_in(user)

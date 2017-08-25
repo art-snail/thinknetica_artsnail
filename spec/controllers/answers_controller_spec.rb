@@ -96,4 +96,37 @@ RSpec.describe AnswersController, type: :controller do
       end
     end
   end
+
+  describe 'PATH #set_best' do
+    sign_in_user
+    let!(:question2) {create :question, user: @user}
+    let!(:answer) {create(:answer, question: question2)}
+    context 'Authenticated user in author' do
+      it 'The author chooses the best answer' do
+        patch :set_best, params: {id: answer, format: :js}
+        answer.reload
+        # pry
+        expect(answer.best).to eq true
+      end
+
+      it 'render set_best template' do
+        patch :set_best, params: {id: answer, format: :js}
+        expect(response).to render_template :set_best
+      end
+    end
+
+    context 'Authenticated user is not author' do
+      sign_in_other_user
+      it 'Not the author of the question tries to choose the best answer' do
+        patch :set_best, params: {id: answer, format: :js}
+        answer.reload
+        expect(answer.best).to eq false
+      end
+
+      it 'render set_best template' do
+        patch :set_best, params: {id: answer, format: :js}
+        expect(response).to render_template :set_best
+      end
+    end
+  end
 end

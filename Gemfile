@@ -34,6 +34,7 @@ group :development, :test do
   gem 'capybara-webkit'
   gem 'rubocop', require: false
   gem 'pry-rails'
+  gem 'pry-byebug'
 end
 
 group :test do

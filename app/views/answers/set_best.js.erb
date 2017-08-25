@@ -1,0 +1,6 @@
+$('.alert').html("");
+$('.notice').html("");
+$('#answer-' + <%= alert %> + ' > .alert').html("<%=  alert %>");
+$('#answer-' + <%= @answer.id %> + ' > .notice').html("<%=  notice %>");
+$('.answer > p').removeClass('best');
+$('p#' + <%= @answer.id %>).addClass('best')
