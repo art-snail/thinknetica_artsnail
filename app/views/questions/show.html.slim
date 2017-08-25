@@ -12,7 +12,7 @@ h2 Вопрос:
 br
 br
 #answers
-  = render @question.answers.best.created
+  = render @question.answers.best_order.created
 .answer-errors
 br
 = render 'answers/form'

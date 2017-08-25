@@ -4,11 +4,14 @@ class Answer < ApplicationRecord
 
   validates :body, presence: true
 
-  scope :best, -> { order 'best desc' }
+  scope :best_order, -> { order 'best desc' }
+  scope :best, -> { where(best: true) }
   scope :created, -> { order 'created_at asc' }
 
   def set_best
-    question.answers.update_all(best: false)
-    update(best: true)
+    transaction do
+      question.answers.update_all(best: false)
+      update(best: true)
+    end
   end
 end

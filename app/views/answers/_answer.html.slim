@@ -1,7 +1,7 @@
 - if answer.persisted?
   .notice-remove
   .answer id="answer-#{answer.id}"
-    p id=(answer.id) class=('best' if answer.best?) = answer.body
+    p id="#{answer.id}" class="#{'best' if answer.best?}" = answer.body
     .notice
     .alert
     - if current_user && current_user.author_of?(answer)

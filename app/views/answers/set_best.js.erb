@@ -2,6 +2,6 @@ $('.alert').html("");
 $('.notice').html("");
 $('#answer-' + <%= alert %> + ' > .alert').html("<%=  alert %>");
 $('.answer > p').removeClass('best');
-$('#answers').html("<%= j render @question.answers.best.created %>")
+$('#answers').html("<%= j render @question.answers.best_order.created %>")
 $('#answer-' + <%= @answer.id %> + ' > .notice').html("<%=  notice %>");
 $('p#' + <%= @answer.id %>).addClass('best')
