@@ -1,6 +1,7 @@
 $('.alert').html("");
 $('.notice').html("");
 $('#answer-' + <%= alert %> + ' > .alert').html("<%=  alert %>");
-$('#answer-' + <%= @answer.id %> + ' > .notice').html("<%=  notice %>");
 $('.answer > p').removeClass('best');
+$('#answers').html("<%= j render @question.answers.best.created %>")
+$('#answer-' + <%= @answer.id %> + ' > .notice').html("<%=  notice %>");
 $('p#' + <%= @answer.id %>).addClass('best')

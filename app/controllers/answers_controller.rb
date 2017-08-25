@@ -18,17 +18,18 @@ class AnswersController < ApplicationController
       @answer.destroy
       flash[:notice] = 'Ответ успешно удалён.'
     else
-      flash[:alert] = 'У Вас нет прав для данной операции'
+      flash[:alert] = 'У Вас нет прав для данной операции.'
     end
   end
 
   def set_best
     # binding.pry
-    if current_user.author_of?(@answer.question)
+    @question = @answer.question
+    if current_user.author_of?(@question)
       @answer.set_best
-      flash[:notice] = 'Ответ успешно помечен лучшим'
+      flash[:notice] = 'Ответ успешно помечен лучшим.'
     else
-      flash[:alert] = 'У Вас нет прав для данной операции'
+      flash[:alert] = 'У Вас нет прав для данной операции.'
     end
   end
 
