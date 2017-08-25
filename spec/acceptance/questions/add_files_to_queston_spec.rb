@@ -8,7 +8,7 @@ feature 'Add files to question', %q{
 
   let(:user) { create(:user) }
 
-  before do
+  background do
     sign_in user
     visit new_question_path
   end
