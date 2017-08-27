@@ -6,5 +6,10 @@
 <% else %>
   $('#answer-errors-' + <%= @answer.id %>).empty();
   $('#answer-<%= @answer.id %>').empty()
-  $('#answer-<%= @answer.id %>').html("<%= j render @answer %>");
+    <% if remotipart_submitted? %>
+      $('#answer-<%= @answer.id %>').html("<%=  j "#{render(@answer)}" %>");
+    <% else %>
+      $('#answer-<%= @answer.id %>').html("<%=  j render(@answer) %>");
+    <% end %>
+  $('.nested-fields').remove();
 <% end %>

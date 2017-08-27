@@ -1,11 +1,11 @@
 = form_for [@question, @answer], remote: true do |f|
   = render 'common/validation_error_message', object: f.object
   = f.label :body, 'Ваш ответ'
-  = f.text_area :body, rows: 6
+  = f.text_area :body, rows: 6, class: 'textarea-new'
   p Attachments:
   #file
     = f.fields_for :attachments do |a|
       = render 'common/attachment_fields', f: a
-  = link_to_add_association 'Добавить фаил', f, :attachments, partial: 'common/attachment_fields'
+    = link_to_add_association 'Добавить фаил', f, :attachments, partial: 'common/attachment_fields'
   br
   = f.submit 'Ответить'

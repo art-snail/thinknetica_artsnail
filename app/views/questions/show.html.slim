@@ -4,11 +4,7 @@ h2 Вопрос:
   p.question-body= @question.body
   h5 Attachments:
   ul.questions
-    - @question.attachments.each do |a|
-      li class="at-#{a.id}" = link_to a.file.identifier, a.file.url
-      - if current_user.author_of?(@question)
-        = link_to 'Удалить фаил', attachment_destroy_path(a), method: :delete, remote: true, class: "at-#{a.id}"
-
+    = render 'common/attachment', resource: @question
 
 - if current_user && current_user.author_of?(@question)
   = link_to 'Редактировать вопрос', '', class: 'edit-question-link', data: {question_id: @question.id}

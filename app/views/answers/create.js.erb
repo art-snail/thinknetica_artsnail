@@ -5,7 +5,11 @@
   <% end %>
 <% else %>
   $('.answer-errors').empty();
-  $('#answers').append("<%= j render @answer %>");
-  $('textarea#answer_body').val('');
+  <% if remotipart_submitted? %>
+    $('#answers').append("<%=  j "#{render(@answer)}" %>");
+  <% else %>
+    $('#answers').append("<%=  j render(@answer) %>");
+  <% end %>
+  $('.textarea-new').val('');
   $('.nested-fields').remove();
 <% end %>
