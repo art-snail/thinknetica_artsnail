@@ -2,4 +2,7 @@
   = render 'common/validation_error_message', object: f.object
   = f.label :body, 'Ваш ответ'
   = f.text_area :body, rows: 6
+  = f.fields_for :attachments do |a|
+    = a.label :file
+    = a.file_field :file
   = f.submit 'Ответить'

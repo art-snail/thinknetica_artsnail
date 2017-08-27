@@ -2,6 +2,10 @@
   .notice-remove
   .answer id="answer-#{answer.id}"
     p id="#{answer.id}" class="#{'best' if answer.best?}" = answer.body
+    h6 Attachments:
+    ul
+      - answer.attachments.each do |a|
+        li= link_to a.file.identifier, a.file.url
     .notice
     .alert
     - if current_user && current_user.author_of?(answer)
