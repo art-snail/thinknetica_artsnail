@@ -7,4 +7,5 @@
   $('.answer-errors').empty();
   $('#answers').append("<%= j render @answer %>");
   $('textarea#answer_body').val('');
+  $('.nested-fields').remove();
 <% end %>

@@ -5,7 +5,9 @@
     h6 Attachments:
     ul
       - answer.attachments.each do |a|
-        li= link_to a.file.identifier, a.file.url
+        li class="at-#{a.id}" = link_to a.file.identifier, a.file.url
+        - if current_user.author_of?(answer)
+          = link_to 'Удалить фаил', attachment_destroy_path(a), method: :delete, remote: true, class: "at-#{a.id}"
     .notice
     .alert
     - if current_user && current_user.author_of?(answer)
@@ -19,4 +21,8 @@
         = f.label :body, 'Answer'
         .answer-error id="answer-errors-#{answer.id}"
         = f.text_area :body
+        #file
+          = f.fields_for :attachments do |a|
+            = render 'common/attachment_fields', f: a
+          /= link_to_add_association 'Добавить фаил', f, :attachments, partial: 'common/attachment_fields'
         = f.submit 'Save'

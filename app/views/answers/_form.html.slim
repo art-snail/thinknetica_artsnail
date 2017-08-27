@@ -3,7 +3,9 @@
   = f.label :body, 'Ваш ответ'
   = f.text_area :body, rows: 6
   p Attachments:
-  = f.fields_for :attachments do |a|
-    = render 'common/attachment_fields', f: a
+  #file
+    = f.fields_for :attachments do |a|
+      = render 'common/attachment_fields', f: a
+  = link_to_add_association 'Добавить фаил', f, :attachments, partial: 'common/attachment_fields'
   br
   = f.submit 'Ответить'
