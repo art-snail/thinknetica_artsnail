@@ -6,8 +6,10 @@
   = f.label :body
   = f.text_area :body
   p Attachments:
-  = f.fields_for :attachments do |a|
-    = a.label :file
-    = a.file_field :file
+  #file
+    - unless @question.persisted?
+      = f.fields_for :attachments do |a|
+        = render 'common/attachment_fields', f: a
+    = link_to_add_association 'Добавить фаил', f, :attachments, partial: 'common/attachment_fields'
   br
   = f.submit @question.persisted? ? 'Edit' : 'Create'
