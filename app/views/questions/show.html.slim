@@ -5,6 +5,12 @@ h2 Вопрос:
   h5 Attachments:
   ul.questions
     = render 'common/attachment', resource: @question
+  #vote
+    span Vote
+    p.result-vote = @question.votes.result
+    - if user_signed_in? && !current_user.author_of?(@question)
+      = render 'common/vote_links', res: @question
+
 
 - if current_user && current_user.author_of?(@question)
   = link_to 'Редактировать вопрос', '', class: 'edit-question-link', data: {question_id: @question.id}

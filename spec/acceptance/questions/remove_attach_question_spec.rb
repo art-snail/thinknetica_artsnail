@@ -7,12 +7,10 @@ feature 'Removing a file from a question', %q{
   let!(:question) { create(:question, user: user) }
   let!(:attach) { create(:attachment, attachable_id: question.id, attachable_type: 'Question') }
 
-
   scenario 'author can remove attach', js: true do
     sign_in user
     visit question_path(question)
     expect(page).to have_content 'spec_helper.rb'
-    # pry
 
     within '#question' do
       click_on 'Удалить фаил'
