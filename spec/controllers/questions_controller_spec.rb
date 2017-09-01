@@ -3,6 +3,10 @@ require 'rails_helper'
 RSpec.describe QuestionsController, type: :controller do
   let(:question) { create(:question) }
 
+  it_behaves_like 'voting' do
+    let(:model) { create(:question)  }
+  end
+
   describe 'GET #index' do
     let(:questions) { create_list(:question, 2) }
 

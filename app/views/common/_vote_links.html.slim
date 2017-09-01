@@ -1,6 +1,6 @@
 p.vote-errors
 = link_to 'vote-up', polymorphic_path([:vote_up, res]), method: :post, remote: true, class: 'vote'
 br
-= link_to 'vote-down', ''
+= link_to 'vote-down', polymorphic_path([:vote_down, res]), method: :post, remote: true, class: 'vote'
 br
-= link_to 'vote-delete', ''
+= link_to 'vote-delete', polymorphic_path([:vote_destroy, res]), method: :delete, remote: true, class: 'vote'

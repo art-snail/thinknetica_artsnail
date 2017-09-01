@@ -9,7 +9,7 @@ Rails.application.routes.draw do
     member do
       post :vote_up
       post :vote_down
-      delete :vote_delete
+      delete :vote_destroy
     end
   end
 
