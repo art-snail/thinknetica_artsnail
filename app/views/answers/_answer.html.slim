@@ -13,6 +13,8 @@
       = link_to 'Удалить ответ', answer, method: :delete, remote: true, data: {answer_id: answer.id}
       '&nbsp; |
       = link_to 'Пометить как лучший', set_best_answer_path(answer), method: :patch, remote: true
+    #answer-vote
+      = render 'common/vote_links', res: answer
     .edit
       = form_for answer, remote: true, html: { id: "edit-answer-#{answer.id}"} do |f|
         = f.label :body, 'Answer'

@@ -6,10 +6,7 @@ h2 Вопрос:
   ul.questions
     = render 'common/attachment', resource: @question
   #vote
-    span Vote
-    p.result-vote = @question.votes.result
-    - if user_signed_in? && !current_user.author_of?(@question)
-      = render 'common/vote_links', res: @question
+    = render 'common/vote_links', res: @question
 
 
 - if current_user && current_user.author_of?(@question)

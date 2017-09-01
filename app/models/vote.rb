@@ -3,6 +3,6 @@ class Vote < ApplicationRecord
   belongs_to :votable, polymorphic: true
 
   def self.result
-    self.sum(:option)
+    sum(:option)
   end
 end

@@ -3,6 +3,10 @@ require 'rails_helper'
 RSpec.describe AnswersController, type: :controller do
   let!(:question) {create :question}
 
+  it_behaves_like 'voting' do
+    let(:model) { create(:answer, question: question) }
+  end
+
   describe 'POST #create' do
     sign_in_user
 
