@@ -9,14 +9,6 @@ class AnswersController < ApplicationController
     @answer = @question.answers.build(answer_params)
     @answer.user = current_user
     @answer.save
-
-    # respond_to do |format|
-    #   if @answer.save
-    #     format.json { render json: @answer }
-    #   else
-    #     format.json { render json: @answer.errors.messages, status: :unprocessable_entity }
-    #   end
-    # end
   end
 
   def update
@@ -33,7 +25,6 @@ class AnswersController < ApplicationController
   end
 
   def set_best
-    # binding.pry
     @question = @answer.question
     if current_user.author_of?(@question)
       @answer.set_best

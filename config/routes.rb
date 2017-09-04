@@ -19,4 +19,6 @@ Rails.application.routes.draw do
     end
   end
   delete '/attachment/:id', to: 'attachments#destroy', as: :attachment_destroy
+
+  mount ActionCable.server => '/cable'
 end

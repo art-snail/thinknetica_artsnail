@@ -1,9 +1,8 @@
 require 'rails_helper'
 
 RSpec.configure do |config|
+  Capybara.server = :puma
   Capybara.server_port = 3030
-
-  # Capybara.default_max_wait_time = 15
 
   config.use_transactional_fixtures = false
 
