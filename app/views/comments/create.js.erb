@@ -1,0 +1,14 @@
+var error = $('.comment-errors');
+var notice = $('.comment-notice');
+<% if @comment.errors.present? %>
+  <% @comment.errors.full_messages.each do |message| %>
+    error.empty();
+    notice.empty();
+    error.html(' <%= j message  %>');
+  <% end %>
+<% else %>
+  error.empty();
+  notice.html('Комментарий успешно добавлен.')
+  $('.comments').after("<%=  j render(@comment) %>");
+  $('#comment_body').val('');
+<% end %>

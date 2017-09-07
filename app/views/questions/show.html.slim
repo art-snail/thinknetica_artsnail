@@ -1,12 +1,16 @@
-h3 Вопрос:
-#question
-  h3.question-title= @question.title
-  p.question-body= @question.body
-  h5 Attachments:
-  ul.questions
-    = render 'common/attachment', resource: @question
-  #vote
-    = render 'common/vote_links', res: @question
+#question.row
+  .col.s6
+    h3 Вопрос:
+  .col.s6
+    h3.question-title= @question.title
+  .col.s12
+    p.question-body= @question.body
+  .col.s12
+    h5 Attachments:
+    ul.questions
+      = render 'common/attachment', resource: @question
+    #vote
+      = render 'common/vote_links', res: @question
 
 - if current_user && current_user.author_of?(@question)
   = link_to 'Редактировать вопрос', '', class: 'edit-question-link', data: {question_id: @question.id}
@@ -14,6 +18,13 @@ h3 Вопрос:
   = link_to 'Удалить вопрос', question_path(@question), method: :delete
   #edit-question
     = render 'form'
+#comments
+  .comment-notice
+  .comment-errors
+  - if user_signed_in?
+    = render 'comments/form', resource: @question
+  h4.comments Комментарии:
+  = render @question.comments.order(updated_at: :desc)
 br
 br
 #answers
