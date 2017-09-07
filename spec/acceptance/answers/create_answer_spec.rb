@@ -28,7 +28,6 @@ feature 'Create answer', %q{
     fill_in 'Ваш ответ', with: nil
     click_on 'Ответить'
 
-    # pry
     expect(page).to have_content "Body can't be blank"
   end
 
@@ -38,5 +37,31 @@ feature 'Create answer', %q{
     click_on 'Ответить'
 
     expect(page).to have_content 'You need to sign in or sign up before continuing.'
+  end
+
+  context 'multiple sessions' do
+    scenario 'answer appears on another user page', js: true do
+      Capybara.using_session('user') do
+        sign_in user
+        visit question_path(question)
+      end
+
+      Capybara.using_session('guest') do
+        visit question_path(question)
+      end
+
+      Capybara.using_session('user') do
+        fill_in 'Ваш ответ', with: 'Мой ответ'
+        click_on 'Ответить'
+
+        within '#answers' do
+          expect(page).to have_content 'Мой ответ'
+        end
+      end
+
+      Capybara.using_session('guest') do
+        expect(page).to have_content 'Мой ответ'
+      end
+    end
   end
 end

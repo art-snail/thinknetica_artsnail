@@ -1,0 +1,16 @@
+.answer id="answer-#{@answer.id}"
+  p id="#{@answer.id}" = @answer.body
+  h6 Attachments:
+  ul
+    - for attachment in @answer['attachments']
+      == JST['templates/attachment'] attachment: attachment
+  a href="/answers/#{@answer.id}/set_best" data-method='patch' data-remote='true' rel='nofollow' Пометить как лучший
+  #answer-vote
+    span Vote
+    p.result-vote 0
+    -if gon.current_user != null
+      a href="/answers/#{@answer.id}/vote_up" data-method='post' data-remote='true' rel='nofollow' vote_up
+      '&nbsp; |
+      a href="/answers/#{@answer.id}/vote_down" data-method='post' data-remote='true' rel='nofollow' vote_down
+      '&nbsp; |
+      a href="/answers/#{@answer.id}/vote_destroy" data-method='delete' data-remote='true' rel='nofollow' vote_delete

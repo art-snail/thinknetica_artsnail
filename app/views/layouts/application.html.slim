@@ -11,10 +11,13 @@ html lang="ru"
     
     = csrf_meta_tags
 
+    = Gon::Base.render_data
+
   body
-    - if notice
-      span#notice = notice
-    - if alert
-      span#alert = alert
-    = render 'common/nav'
-    = yield
+    .container
+      - if notice
+        span#notice = notice
+      - if alert
+        span#alert = alert
+      = render 'common/nav'
+      = yield

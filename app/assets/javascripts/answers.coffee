@@ -2,15 +2,23 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
-#$ ->
-#  $('form.new_answer').on('ajax:success', (e, data, status, xhr) ->
-#    answer = $.parseJSON(xhr.responseText)
-#    $('#answers').append('<p>' + answer.body + '</p>')
-#  ).on 'ajax:error', (e, xhr, status, error) ->
-#    errors = $.parseJSON(xhr.responseText)
-#    $.each errors, (index, value) ->
-#      $('.answer-errors').html(value)
+$ ->
+  if gon.question
+    App.cable.subscriptions.create({
+      channel: 'AnswersChannel',
+      question_id: gon.question.id
+    },{
+      connected: ->
+        @perform 'follow'
+      ,
 
+      received: (data) ->
+        answer = JSON.parse(data)
+        if !gon.current_user || (answer.user_id != gon.current_user.id)
+          $('#answers').append(JST['templates/answer']({
+            answer: answer
+          }))
+    })
 
 answer_ready = ->
   $('body').on 'click', 'a.edit-answer-link', (e) ->

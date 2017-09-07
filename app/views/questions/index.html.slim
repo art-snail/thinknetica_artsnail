@@ -1,6 +1,8 @@
-h2 Список вопросов
-
-#questions
-  = render @questions
+.row
+  .col.s6
+    h2 Список вопросов
+.row
+  #questions.col
+    = render @questions
 
 p = link_to 'Ask question', new_question_path
