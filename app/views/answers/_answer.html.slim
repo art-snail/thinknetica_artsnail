@@ -25,3 +25,10 @@
             = render 'common/attachment_fields', f: a
           = link_to_add_association 'Добавить фаил', f, :attachments, partial: 'common/attachment_fields'
         = f.submit 'Save'
+    div id="answers-comment-#{answer.id}"
+      .comment-notice
+      .comment-errors
+      - if user_signed_in?
+        = render 'comments/form', resource: answer
+      h5.comments Комментарии:
+      = render answer.comments.order(updated_at: :desc)

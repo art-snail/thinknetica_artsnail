@@ -14,3 +14,7 @@
       a href="/answers/#{@answer.id}/vote_down" data-method='post' data-remote='true' rel='nofollow' vote_down
       '&nbsp; |
       a href="/answers/#{@answer.id}/vote_destroy" data-method='delete' data-remote='true' rel='nofollow' vote_delete
+  div id="answers-comment-#{@answer.id}"
+    - if user_signed_in?
+      = render 'comments/form', resource: answer
+    h5.comments Комментарии:

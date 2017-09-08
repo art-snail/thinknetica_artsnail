@@ -61,6 +61,7 @@ feature 'Create answer', %q{
 
       Capybara.using_session('guest') do
         expect(page).to have_content 'Мой ответ'
+        expect(page).to have_content 'Комментарии:'
       end
     end
   end

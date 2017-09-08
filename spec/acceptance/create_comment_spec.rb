@@ -4,15 +4,16 @@ feature 'Comment for question or answer', %q{
   As a user I want to be able to leave comments on questions and answers.
 } do
 
-  let(:user) { create(:user) }
+  let!(:user) { create(:user) }
   let!(:question) { create(:question, user: user) }
-  let(:answer) { create(:answer, question: question, user: user) }
+  let!(:answer) { create(:answer, question: question, user: user) }
 
   describe 'User' do
     before do
       sign_in user
       visit question_path(question)
     end
+
     context 'creates comment for question' do
       scenario 'with valid attributes', :js do
         within '#comments' do
@@ -30,6 +31,24 @@ feature 'Comment for question or answer', %q{
         end
       end
     end
+
+    context 'creates comment for answer' do
+      scenario 'with valid attributes', :js do
+        within '#answers' do
+          fill_in 'Ваш комментарий', with: 'Мой комментарий'
+          click_on 'Добавить комментарий'
+          expect(page).to have_content 'Комментарий успешно добавлен.'
+          expect(page).to have_content 'Мой комментарий'
+        end
+      end
+
+      scenario 'with invalid attributes', js: true do
+        within '#answers' do
+          click_on 'Добавить комментарий'
+          expect(page).to have_content "Body can't be blank"
+        end
+      end
+    end
   end
 
   describe 'Guest' do
@@ -38,6 +57,16 @@ feature 'Comment for question or answer', %q{
         visit question_path(question)
 
         within '#comments' do
+          expect(page).to_not have_content 'Ваш комментарий'
+        end
+      end
+    end
+
+    context 'answer' do
+      scenario 'try to create comment' do
+        visit question_path(question)
+
+        within '#answers' do
           expect(page).to_not have_content 'Ваш комментарий'
         end
       end
@@ -67,6 +96,34 @@ feature 'Comment for question or answer', %q{
 
         Capybara.using_session('guest') do
           within '#comments' do
+            expect(page).to have_content 'Мой комментарий'
+          end
+        end
+      end
+    end
+
+    context 'answer' do
+      scenario "comment appears on another user's page", :js do
+        Capybara.using_session('user') do
+          sign_in user
+          visit question_path(question)
+        end
+
+        Capybara.using_session('guest') do
+          visit question_path(question)
+        end
+
+        Capybara.using_session('user') do
+          within '#answers' do
+            fill_in 'Ваш комментарий', with: 'Мой комментарий'
+            click_on 'Добавить комментарий'
+
+            expect(page).to have_content 'Мой комментарий'
+          end
+        end
+
+        Capybara.using_session('guest') do
+          within '#answers' do
             expect(page).to have_content 'Мой комментарий'
           end
         end
