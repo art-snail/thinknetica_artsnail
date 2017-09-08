@@ -1,8 +1,10 @@
 FactoryGirl.define do
   factory :comment do
     user nil
-    commentable_id 1
-    commentable "MyString"
     body "MyText"
+  end
+
+  factory :invalid_comment, class: 'Comment' do
+    body nil
   end
 end
