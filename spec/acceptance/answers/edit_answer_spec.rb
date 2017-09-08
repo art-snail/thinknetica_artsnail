@@ -18,24 +18,29 @@ feature 'Answer editing', %{
     visit question_path(question)
 
     within '#answers' do
-      # pry
       expect(page).to have_link 'Редактировать ответ'
+    end
+    within '.edit' do
       expect(page).to_not have_selector 'textarea'
     end
+
     click_link 'Редактировать ответ'
 
     within '#answers' do
       expect(page).to_not have_link 'Редактировать ответ'
+    end
+    within '.edit' do
       expect(page).to have_selector 'textarea'
     end
 
-    # wait_for_ajax
     within '#answers' do
       fill_in 'Answer', with: 'edited answer'
       click_on 'Save'
 
       expect(page).to_not have_content answer.body
       expect(page).to have_content 'edited answer'
+    end
+    within '.edit' do
       expect(page).to_not have_selector 'textarea'
     end
   end
