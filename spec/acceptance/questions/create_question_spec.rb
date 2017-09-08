@@ -53,8 +53,6 @@ feature 'Create question', %q{
       end
 
       Capybara.using_session('user') do
-        visit questions_path
-
         click_on 'Ask question'
         fill_in 'Title', with: 'test question'
         fill_in 'Body', with: 'text text'

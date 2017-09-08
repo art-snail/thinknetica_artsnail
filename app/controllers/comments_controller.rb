@@ -1,5 +1,6 @@
 class CommentsController < ApplicationController
   before_action :load_commentable, only: %i[create]
+  after_action :publish_comment, only: [:create]
 
   def create
     @comment = @commentable.comments.new(commentable_params)
@@ -10,7 +11,6 @@ class CommentsController < ApplicationController
   private
 
   def load_commentable
-    # binding.pry
     @commentable = commentable_name.classify.constantize.find(params[commentable_id])
   end
 
@@ -24,5 +24,16 @@ class CommentsController < ApplicationController
 
   def commentable_params
     params.require(:comment).permit(:body)
+  end
+
+  def publish_comment
+    return if @comment.errors.any?
+
+    id = @comment.commentable.try(:question) ? @comment.commentable.question.id : @comment.commentable.id
+
+    ActionCable.server.broadcast(
+        "comments/question_#{id}",
+        @comment.to_json
+    )
   end
 end
