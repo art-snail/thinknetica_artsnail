@@ -1,14 +1,20 @@
-var error = $('.comment-errors');
-var notice = $('.comment-notice');
+<% commentable = @comment.commentable.class.name.downcase %>
+<% id = @comment.commentable.id %>
+var notice = $(".comment-notice-<%= id %>");
+var error  = $(".comment-errors-<%= id %>");
 <% if @comment.errors.present? %>
   <% @comment.errors.full_messages.each do |message| %>
     error.empty();
     notice.empty();
-    error.html(' <%= j message  %>');
+    error.html("<%= j message  %>");
   <% end %>
 <% else %>
   error.empty();
   notice.html('Комментарий успешно добавлен.')
-  $('.comments').after("<%=  j render(@comment) %>");
-  $('#comment_body').val('');
+  $(".comment-<%= id %>").after("<%=  j render(@comment) %>");
+  <% if commentable == 'question' %>
+    $('#comment_body').val('');
+  <% else %>
+    $(".<%= commentable %>_comments[data-id=<%= id %>] textarea").val('')
+  <% end %>
 <% end %>

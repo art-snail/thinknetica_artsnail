@@ -18,12 +18,12 @@
   = link_to 'Удалить вопрос', question_path(@question), method: :delete
   #edit-question
     = render 'form'
-#comments
-  .comment-notice
-  .comment-errors
+div id="comments" class="question-comments" data-id=@question.id
+  div class="comment-notice-#{@question.id}"
+  div class="comment-errors-#{@question.id}"
   - if user_signed_in?
     = render 'comments/form', resource: @question
-  h4.comments Комментарии:
+  h4 class="comment-#{@question.id}" Комментарии:
   = render @question.comments.order(updated_at: :desc)
 br
 br

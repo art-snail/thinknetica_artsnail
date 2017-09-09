@@ -1,4 +1,4 @@
 - resource.attachments.each do |a|
   li class="at-#{a.id}" = link_to a.file.identifier, a.file.url
-  - if current_user.author_of?(resource)
+  - if user_signed_in? && current_user.author_of?(resource)
     = link_to 'Удалить фаил', attachment_destroy_path(a), method: :delete, remote: true, class: "at-#{a.id}"

@@ -31,9 +31,7 @@ feature 'Add files to question', %q{
       attach_file 'File', "#{Rails.root}/spec/rails_helper.rb"
     end
     click_on 'Create'
-    # pry
     expect(page).to have_link 'spec_helper.rb', href: '/uploads/attachment/file/3/spec_helper.rb'
-    # expect(page).to have_content 'rails_helper.rb'
     expect(page).to have_link 'rails_helper.rb', href: '/uploads/attachment/file/2/rails_helper.rb'
     expect(page).to have_content 'Your question successfully created'
   end

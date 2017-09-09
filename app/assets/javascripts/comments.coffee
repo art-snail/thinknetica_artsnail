@@ -15,15 +15,10 @@ $ ->
       received: (data) ->
         comment = JSON.parse(data)
         if !gon.current_user || (comment.user_id != gon.current_user.id)
-          mod = comment.commentable_type
+          mod = comment.commentable_type.toLowerCase()
           id = comment.commentable_id
 
-          if mod == 'Answer'
-            el = $("#answers-comment-#{id} > .comments")
-          else
-            el = $('.comments')
-
-          el.after(JST['templates/comment']({
+          $(".comment-#{id}").after(JST['templates/comment']({
             comment: comment
           }))
-      })
+    })

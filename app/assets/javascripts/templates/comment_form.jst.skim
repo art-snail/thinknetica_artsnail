@@ -1,0 +1,6 @@
+form id="comment-#{@commentable_type}-#{@commentable.id}" class="new-#{@commentable_type}-comment" action="/#{@commentable_type}s/#{@commentable.id}/comments" accept-charset="UTF-8" data-remote="true" method="post"
+  div id="comment-#{@commentable_type}-#{@commentable.id}-errors"
+  label for="comment_body" Ваш комментарий
+  textarea name="comment[body]" id="comment_body" rows="2"
+  br
+  input type="submit" name="commit" value="добавить комментарий" data-disable-with="Add comment" class="btn waves-effect green"

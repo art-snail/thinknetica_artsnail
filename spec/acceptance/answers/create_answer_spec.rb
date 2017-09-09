@@ -39,6 +39,7 @@ feature 'Create answer', %q{
     expect(page).to have_content 'You need to sign in or sign up before continuing.'
   end
 
+  let(:user2) { create(:user) }
   context 'multiple sessions' do
     scenario 'answer appears on another user page', js: true do
       Capybara.using_session('user') do
@@ -47,6 +48,11 @@ feature 'Create answer', %q{
       end
 
       Capybara.using_session('guest') do
+        visit question_path(question)
+      end
+
+      Capybara.using_session('user2') do
+        sign_in user2
         visit question_path(question)
       end
 
@@ -61,7 +67,20 @@ feature 'Create answer', %q{
 
       Capybara.using_session('guest') do
         expect(page).to have_content 'Мой ответ'
-        expect(page).to have_content 'Комментарии:'
+        within '#answers' do
+          expect(page).to have_content 'Комментарии:'
+        end
+      end
+
+      Capybara.using_session('user2') do
+        expect(page).to have_content 'Мой ответ'
+        within '#answers' do
+          expect(page).to have_content 'Комментарии:'
+          expect(page).to have_link 'vote_up'
+          expect(page).to have_link 'vote_down'
+          expect(page).to have_link 'vote_delete'
+          expect(page).to have_css '.new-answer-comment'
+        end
       end
     end
   end
