@@ -7,13 +7,13 @@
   #answer-vote
     span Vote
     p.result-vote 0
-    -if gon.current_user != null
+    -if gon.current_user
       a href="/answers/#{@answer.id}/vote_up" data-method='post' data-remote='true' rel='nofollow' vote_up
       '&nbsp; |
       a href="/answers/#{@answer.id}/vote_down" data-method='post' data-remote='true' rel='nofollow' vote_down
       '&nbsp; |
       a href="/answers/#{@answer.id}/vote_destroy" data-method='delete' data-remote='true' rel='nofollow' vote_delete
   div id="answers-comment-#{@answer.id}"
-    -if gon.current_user != null
+    -if gon.current_user
       == JST['templates/comment_form']({ commentable: @answer, commentable_type: 'answer' })
     h5.comments Комментарии:

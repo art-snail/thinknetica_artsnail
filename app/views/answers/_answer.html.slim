@@ -30,5 +30,5 @@
       div class="comment-errors-#{answer.id}"
       - if user_signed_in?
         = render 'comments/form', resource: answer
-      h4 class="comment-#{answer.id}" Комментарии:
+      h4 class="comment-answer-#{answer.id}" Комментарии:
       = render answer.comments.order(updated_at: :desc)

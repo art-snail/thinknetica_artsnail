@@ -18,7 +18,7 @@ $ ->
           mod = comment.commentable_type.toLowerCase()
           id = comment.commentable_id
 
-          $(".comment-#{id}").after(JST['templates/comment']({
+          $(".comment-#{mod}-#{id}").after(JST['templates/comment']({
             comment: comment
           }))
     })

@@ -11,7 +11,7 @@ var error  = $(".comment-errors-<%= id %>");
 <% else %>
   error.empty();
   notice.html('Комментарий успешно добавлен.')
-  $(".comment-<%= id %>").after("<%=  j render(@comment) %>");
+  $(".comment-<%= commentable %>-<%= id %>").after("<%=  j render(@comment) %>");
   <% if commentable == 'question' %>
     $('#comment_body').val('');
   <% else %>
