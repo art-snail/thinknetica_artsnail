@@ -16,7 +16,7 @@ feature 'Remove answer', %q{
     click_on 'Удалить ответ'
 
     within '#answers' do
-      expect(page).to have_content 'Ответ успешно удалён.'
+      expect(page).to have_content 'Answer was successfully destroyed.'
       expect(page).to_not have_content 'MyText'
     end
     expect(current_path).to eq question_path question

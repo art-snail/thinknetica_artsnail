@@ -7,23 +7,25 @@ class AnswersController < ApplicationController
 
   after_action :publish_answer, only: [:create]
 
+  respond_to :js
+
   def create
     @answer = @question.answers.build(answer_params)
     @answer.user = current_user
-    @answer.save
+    respond_with @answer.save
   end
 
   def update
-    @answer.update(answer_params)
+    respond_with @answer.update(answer_params)
   end
 
   def destroy
     if current_user.author_of?(@answer)
       @answer.destroy
-      flash[:notice] = 'Ответ успешно удалён.'
     else
       flash[:alert] = 'У Вас нет прав для данной операции.'
     end
+    respond_with @answer
   end
 
   def set_best
@@ -34,6 +36,7 @@ class AnswersController < ApplicationController
     else
       flash[:alert] = 'У Вас нет прав для данной операции.'
     end
+    respond_with @answer
   end
 
   private
