@@ -3,54 +3,54 @@ class QuestionsController < ApplicationController
 
   before_action :authenticate_user!, except: %i[index show]
   before_action :load_question, only: %i[show edit update destroy]
+  before_action :build_answer, only: :show
 
   after_action :publish_question, only: %i[create]
 
+  respond_to :js
+
   def index
-    @questions = Question.all
+    respond_with(@questions = Question.all)
   end
 
   def show
     gon.question = @question
-    gon.current_user = current_user
 
-    @answer = @question.answers.build
-    @answer.attachments.build
+    respond_with @question
   end
 
   def new
-    @question = Question.new
-    @question.attachments.build
+    respond_with @question = Question.new
   end
 
   def edit; end
 
   def create
-    @question = current_user.questions.build(question_params)
-    if @question.save
-      flash[:notice] = 'Your question successfully created'
-      redirect_to @question
-    else
-      render :new
-    end
+    respond_with(@question = current_user.questions.create(question_params))
   end
 
   def update
-    @question.update(question_params)
+    respond_with @question.update(question_params)
   end
 
   def destroy
     if current_user.author_of?(@question)
       @question.destroy
-      flash[:notice] = 'Вопрос успешно удалён.'
-      redirect_to questions_path
     else
       flash[:alert] = 'У Вас нет прав для данной операции'
-      redirect_to @question
     end
+    respond_with @question
   end
 
   private
+
+  def flash_interpolation_options
+    { resource_name: 'Your question' }
+  end
+
+  def build_answer
+    @answer = @question.answers.build
+  end
 
   def publish_question
     return if @question.errors.any?

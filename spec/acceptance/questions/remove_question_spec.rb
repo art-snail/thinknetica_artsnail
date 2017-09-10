@@ -13,7 +13,7 @@ feature 'Remove question', %q{
     visit question_path question
     click_on 'Удалить вопрос'
 
-    expect(page).to have_content 'Вопрос успешно удалён.'
+    expect(page).to have_content 'Your question was successfully destroyed.'
     expect(page).to_not have_content 'MyString'
     expect(current_path).to eq questions_path
   end

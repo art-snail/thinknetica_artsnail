@@ -33,6 +33,6 @@ feature 'Add files to question', %q{
     click_on 'Create'
     expect(page).to have_link 'spec_helper.rb', href: '/uploads/attachment/file/3/spec_helper.rb'
     expect(page).to have_link 'rails_helper.rb', href: '/uploads/attachment/file/2/rails_helper.rb'
-    expect(page).to have_content 'Your question successfully created'
+    expect(page).to have_content 'Your question was successfully created.'
   end
 end
