@@ -2,10 +2,12 @@ class CommentsController < ApplicationController
   before_action :load_commentable, only: %i[create]
   after_action :publish_comment, only: [:create]
 
+  respond_to :js
+
   def create
     @comment = @commentable.comments.new(commentable_params)
     @comment.user = current_user
-    @comment.save
+    respond_with @comment.save
   end
 
   private
