@@ -41,6 +41,7 @@ ActiveRecord::Schema.define(version: 20170912121815) do
     t.string "uid"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["provider", "uid"], name: "index_authorizations_on_provider_and_uid"
     t.index ["user_id"], name: "index_authorizations_on_user_id"
   end
 

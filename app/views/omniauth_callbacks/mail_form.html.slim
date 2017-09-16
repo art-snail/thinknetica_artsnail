@@ -1,0 +1,7 @@
+p Введите Ваш email
+
+= form_tag method: :post, url: oauth_email_path(user) do
+  = label_tag :email
+  = email_field_tag :email
+  br
+  = submit_tag 'Отправить'
