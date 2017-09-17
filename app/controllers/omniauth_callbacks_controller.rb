@@ -5,14 +5,14 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def twitter
-    auth = request.env['omniauth.auth']
-    @user = User.find_for_oauth(auth)
-    oauth_with_email(@user, auth, 'Twitter')
+    oauth_with_email('Twitter')
   end
 
   private
 
-  def oauth_with_email(user, auth, kind)
+  def oauth_with_email(kind)
+    auth = request.env['omniauth.auth']
+    @user = User.find_for_oauth(auth)
     if user.persisted?
       authenticate(kind)
     else
