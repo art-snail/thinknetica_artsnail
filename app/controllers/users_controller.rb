@@ -1,8 +1,8 @@
 class UsersController < ApplicationController
   def oauth_email
     @net_user = User.find(params[:id])
-    @user = User.find_by_email(params[:email])
     auth = @net_user.authorizations.first
+    @user = User.find_by_email(params[:email])
     if @user
       @user.authorizations.create(provider: auth.provider, uid: auth.uid)
       @net_user.destroy

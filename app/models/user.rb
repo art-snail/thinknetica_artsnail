@@ -22,14 +22,19 @@ class User < ApplicationRecord
       if user
         user.create_authorization(auth)
       else
-        password = Devise.friendly_token[0, 20]
-        user = User.create!(email: email, password: password, password_confirmation: password)
-        user.create_authorization(auth)
+        user = create_user_and_auth(email, auth)
       end
       user
     else
       User.new
     end
+  end
+
+  def self.create_user_and_auth(email, auth)
+    password = Devise.friendly_token[0, 20]
+    user = User.create!(email: email, password: password, password_confirmation: password)
+    user.create_authorization(auth)
+    user
   end
 
   def create_authorization(auth)
