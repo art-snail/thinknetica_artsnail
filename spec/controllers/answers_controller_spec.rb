@@ -42,8 +42,7 @@ RSpec.describe AnswersController, type: :controller do
 
   describe 'PATH #update' do
     sign_in_user
-
-    let(:answer) { create(:answer, question: question)}
+    let(:answer) { create(:answer, question: question, user: @user)}
 
     it 'assigns the requested answer to @answer' do
       patch :update,
@@ -57,6 +56,7 @@ RSpec.describe AnswersController, type: :controller do
             params: {id: answer, question_id: question, answer: { body: 'new body'}, format: :js}
 
       answer.reload
+      # pry
       expect(answer.body).to eq 'new body'
     end
 
@@ -96,7 +96,7 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'redirect show question' do
         delete :destroy, params: {question_id: question, id: answer, format: :js}
-        expect(response).to render_template :destroy
+        expect(response).to redirect_to root_path
       end
     end
   end
@@ -129,7 +129,7 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'render set_best template' do
         patch :set_best, params: {id: answer, format: :js}
-        expect(response).to render_template :set_best
+        expect(response).to redirect_to root_path
       end
     end
   end

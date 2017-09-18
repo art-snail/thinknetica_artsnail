@@ -15,6 +15,12 @@ FactoryGirl.define do
     title
     body 'MyText'
     user
+    end
+
+  factory :question_new, class: 'Question' do
+    title 'new title'
+    body 'new body'
+    user
   end
 
   factory :invalid_question, class: 'Question' do

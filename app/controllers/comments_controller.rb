@@ -4,6 +4,8 @@ class CommentsController < ApplicationController
 
   respond_to :js
 
+  authorize_resource
+
   def create
     @comment = @commentable.comments.new(commentable_params)
     @comment.user = current_user

@@ -9,6 +9,8 @@ class AnswersController < ApplicationController
 
   respond_to :js
 
+  authorize_resource
+
   def create
     @answer = @question.answers.build(answer_params)
     @answer.user = current_user

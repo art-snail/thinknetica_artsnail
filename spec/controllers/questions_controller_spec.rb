@@ -4,7 +4,7 @@ RSpec.describe QuestionsController, type: :controller do
   let(:question) { create(:question) }
 
   it_behaves_like 'voting' do
-    let(:model) { create(:question)  }
+    let(:model) { create(:question) }
   end
 
   describe 'GET #index' do
@@ -52,6 +52,7 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #edit' do
+    let(:question) { create(:question, user: @user) }
     sign_in_user
     before { get :edit, params: { id: question } }
 
@@ -91,11 +92,13 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'PATCH #update' do
+    let(:question) { create(:question, user: @user) }
     sign_in_user
 
     context 'with valid attributes' do
       it 'sets the requested question to a variable' do
-        patch :update, params: { id: question, question: attributes_for(:question), format: :js }
+        patch :update,
+              params: { id: question, question: attributes_for(:question), format: :js }
         expect(assigns(:question)).to eq question
       end
 
@@ -109,6 +112,7 @@ RSpec.describe QuestionsController, type: :controller do
 
       it 'render update template' do
         patch :update, params: { id: question, question: attributes_for(:question), format: :js }
+        # expect(response).to redirect_to root_path
         expect(response).to render_template :update
       end
     end
@@ -153,7 +157,7 @@ RSpec.describe QuestionsController, type: :controller do
 
       it 'redirect show view' do
         delete :destroy, params: { id: question }
-        expect(response).to redirect_to question
+        expect(response).to redirect_to root_path
       end
     end
   end

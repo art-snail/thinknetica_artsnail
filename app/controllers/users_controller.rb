@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  skip_authorization_check
+
   def oauth_email
     @net_user = User.find(params[:id])
     auth = @net_user.authorizations.first

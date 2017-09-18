@@ -9,6 +9,8 @@ class QuestionsController < ApplicationController
 
   respond_to :js
 
+  authorize_resource
+
   def index
     respond_with(@questions = Question.all)
   end
@@ -34,12 +36,7 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    if current_user.author_of?(@question)
-      @question.destroy
-    else
-      flash[:alert] = 'У Вас нет прав для данной операции'
-    end
-    respond_with @question
+    respond_with @question.destroy
   end
 
   private
