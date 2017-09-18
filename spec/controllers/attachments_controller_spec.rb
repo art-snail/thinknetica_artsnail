@@ -19,6 +19,7 @@ RSpec.describe AttachmentsController, type: :controller do
         sign_in_other_user
         it 'user not_eq author' do
           attach
+          # pry
           expect { delete :destroy, params: { id: attach, format: :js } }.to_not change(Attachment, :count)
         end
       end

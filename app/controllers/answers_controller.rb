@@ -22,23 +22,12 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    if current_user.author_of?(@answer)
-      @answer.destroy
-    else
-      flash[:alert] = 'У Вас нет прав для данной операции.'
-    end
-    respond_with @answer
+    respond_with @answer.destroy
   end
 
   def set_best
     @question = @answer.question
-    if current_user.author_of?(@question)
-      @answer.set_best
-      flash[:notice] = 'Ответ успешно помечен лучшим.'
-    else
-      flash[:alert] = 'У Вас нет прав для данной операции.'
-    end
-    respond_with @answer
+    respond_with @answer.set_best, notice: 'Ответ успешно помечен лучшим.'
   end
 
   private

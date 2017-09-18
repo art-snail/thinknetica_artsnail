@@ -30,7 +30,7 @@ class Ability
     can :set_best, Answer, question: { user: user }
     can :destroy, Attachment, attachable: { user: user }
     can %i[vote_up vote_down vote_destroy], Votable do |v|
-      v.user != user
+      v.user_id != user.id
     end
   end
 end

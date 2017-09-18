@@ -56,7 +56,6 @@ RSpec.describe AnswersController, type: :controller do
             params: {id: answer, question_id: question, answer: { body: 'new body'}, format: :js}
 
       answer.reload
-      # pry
       expect(answer.body).to eq 'new body'
     end
 
@@ -96,7 +95,7 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'redirect show question' do
         delete :destroy, params: {question_id: question, id: answer, format: :js}
-        expect(response).to redirect_to root_path
+        expect(response.status).to eq 403
       end
     end
   end
@@ -109,7 +108,6 @@ RSpec.describe AnswersController, type: :controller do
       it 'The author chooses the best answer' do
         patch :set_best, params: {id: answer, format: :js}
         answer.reload
-        # pry
         expect(answer.best).to eq true
       end
 
@@ -129,7 +127,7 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'render set_best template' do
         patch :set_best, params: {id: answer, format: :js}
-        expect(response).to redirect_to root_path
+        expect(response.status).to eq 403
       end
     end
   end
