@@ -8,6 +8,8 @@ class User < ApplicationRecord
   has_many :answers
   has_many :authorizations, dependent: :destroy
 
+  scope :list, -> (id) { where('id != ?', id) }
+
   def author_of?(resource)
     id == resource.user_id
   end
