@@ -32,6 +32,7 @@ gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'omniauth-twitter'
 gem 'cancancan'
+gem 'doorkeeper'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -51,6 +52,7 @@ end
 group :test do
   gem 'shoulda-matchers'
   gem 'launchy'
+  gem 'json_spec'
 end
 
 group :development do
