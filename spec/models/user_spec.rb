@@ -17,6 +17,18 @@ RSpec.describe User, type: :model do
     expect(other_user).to_not be_author_of(question)
   end
 
+  describe 'scope list' do
+    let(:user) { create(:user) }
+    let(:user1) { create(:user) }
+    let(:user2) { create(:user) }
+
+    it 'items not included user' do
+      items = User.list(user.id)
+      expect(items).to include(user1, user2)
+      expect(items).to_not include(user)
+    end
+  end
+
   describe 'find_for_oauth' do
     let!(:user) { create(:user) }
     let(:auth) { OmniAuth::AuthHash.new(provider: 'facebook', uid: '123456') }
