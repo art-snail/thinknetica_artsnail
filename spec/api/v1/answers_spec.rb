@@ -126,4 +126,80 @@ describe 'Answer API' do
       end
     end
   end
+
+  describe 'POST /create' do
+    context 'unauthorized' do
+      it 'returns 401 status if there is no access_token' do
+        get "/api/v1/questions/#{question.id}/answers", params: { format: :json }
+        expect(response.status).to eq 401
+      end
+
+      it 'returns 401 status if access_token is invalid' do
+        get "/api/v1/questions/#{question.id}/answers", params: { format: :json, access_token: '1234' }
+        expect(response.status).to eq 401
+      end
+    end
+
+    context 'authorized' do
+      context 'with valid attributes' do
+        it 'return status 201' do
+          post "/api/v1/questions/#{question.id}/answers",
+               params: { answer: attributes_for(:answer),
+                         access_token: access_token.token,
+                         format: :json }
+
+          expect(response.status).to eq 201
+        end
+
+        it 'creates new answer' do
+          expect { post "/api/v1/questions/#{question.id}/answers",
+                        params: { answer: attributes_for(:answer),
+                                  access_token: access_token.token,
+                                  format: :json } }.
+              to change(Answer, :count).by(1)
+        end
+
+        it 'sets a current_user to the new answer' do
+          post "/api/v1/questions/#{question.id}/answers",
+               params: { answer: attributes_for(:answer),
+                         access_token: access_token.token,
+                         format: :json }
+
+          expect(response.body).to be_json_eql(access_token.resource_owner_id).at_path("user_id")
+        end
+
+        context 'attr' do
+          before { post "/api/v1/questions/#{question.id}/answers",
+                        params: { answer: attributes_for(:answer),
+                                  access_token: access_token.token,
+                                  format: :json } }
+
+          %w(id body user_id created_at updated_at).each do |attr|
+            it "answer object contains #{attr}" do
+              expect(response.body).to be_json_eql(Answer.last.send(attr.to_sym).to_json).at_path("#{attr}")
+            end
+          end
+        end
+      end
+
+      context 'with invalid attributes' do
+        it 'returns status 422' do
+          post "/api/v1/questions/#{question.id}/answers",
+               params: { answer: attributes_for(:invalid_answer),
+                         access_token: access_token.token,
+                         format: :json }
+
+          expect(response.status).to eq 422
+        end
+
+        it 'does not create new answer' do
+          expect { post "/api/v1/questions/#{question.id}/answers",
+                        params: { answer: attributes_for(:invalid_answer),
+                                  access_token: access_token.token,
+                                  format: :json } }.
+              to_not change(Answer, :count)
+        end
+      end
+    end
+  end
 end
