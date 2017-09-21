@@ -48,7 +48,8 @@ describe 'Question API' do
 
         %w(id body created_at updated_at).each do |attr|
           it "contains #{attr}" do
-            expect(response.body).to be_json_eql(answer.send(attr.to_sym).to_json).at_path("0/answers/0/#{attr}")
+            expect(response.body).
+                to be_json_eql(answer.send(attr.to_sym).to_json).at_path("0/answers/0/#{attr}")
           end
         end
       end
@@ -99,7 +100,8 @@ describe 'Question API' do
 
           %w(id body user_id created_at updated_at).each do |attr|
             it "contains #{attr}" do
-              expect(response.body).to be_json_eql(answer.send(attr.to_sym).to_json).at_path("answers/0/#{attr}")
+              expect(response.body).
+                  to be_json_eql(answer.send(attr.to_sym).to_json).at_path("answers/0/#{attr}")
             end
           end
         end
