@@ -9,4 +9,14 @@ class Api::V1::QuestionsController < Api::V1::BaseController
   def show
     respond_with Question.find(params[:id])
   end
+
+  def create
+    respond_with Question.create(question_params)
+  end
+
+  private
+
+  def question_params
+    params.require(:question).permit(:title, :body).merge(user: current_resource_owner)
+  end
 end
