@@ -32,5 +32,6 @@ class Ability
     can %i[vote_up vote_down vote_destroy], Votable do |v|
       v.user_id != user.id
     end
+    can :me, User
   end
 end
