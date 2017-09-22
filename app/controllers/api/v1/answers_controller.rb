@@ -13,13 +13,13 @@ class Api::V1::AnswersController < Api::V1::BaseController
   end
 
   def create
-    respond_with @answer = @question.answers.create(answer_params)
+    respond_with @answer = @question.answers.create(answer_params.merge(user: current_resource_owner))
   end
 
   private
 
   def answer_params
-    params.require(:answer).permit(:body).merge(user: current_resource_owner)
+    params.require(:answer).permit(:body)
   end
 
   def load_question
