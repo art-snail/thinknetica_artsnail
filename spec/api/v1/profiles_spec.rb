@@ -2,17 +2,7 @@ require 'rails_helper'
 
 describe 'Profile API' do
   describe 'GET /me' do
-    context 'unauthorized' do
-      it 'returns 401 status if there is no access_token' do
-        get '/api/v1/profiles/me', params: { format: :json }
-        expect(response.status).to eq 401
-      end
-
-      it 'returns 401 status if access_token is invalid' do
-        get '/api/v1/profiles/me', params: { format: :json, access_token: '1234' }
-        expect(response.status).to eq 401
-      end
-    end
+    it_behaves_like 'API Authenticable'
 
     context 'authorized' do
       let(:me) { create(:user) }
@@ -20,9 +10,7 @@ describe 'Profile API' do
 
       before { get '/api/v1/profiles/me', params: { format: :json, access_token: access_token.token } }
 
-      it 'returns status 200' do
-        expect(response).to be_success
-      end
+      it_behaves_like 'API successfully'
 
       %w(id email created_at updated_at admin).each do |attr|
         it "contains #{attr}" do
@@ -36,20 +24,14 @@ describe 'Profile API' do
         end
       end
     end
+
+    def do_request(options = {})
+      get '/api/v1/profiles/me', params: { format: :json }.merge(options)
+    end
   end
 
   describe 'GET /index' do
-    context 'unauthorized' do
-      it 'returns 401 status if there is no access_token' do
-        get '/api/v1/profiles', params: { format: :json }
-        expect(response.status).to eq 401
-      end
-
-      it 'returns 401 status if access_token is invalid' do
-        get '/api/v1/profiles', params: { format: :json, access_token: '1234' }
-        expect(response.status).to eq 401
-      end
-    end
+    it_behaves_like 'API Authenticable'
 
     context 'authorized' do
       let!(:me) { create(:user) }
@@ -58,9 +40,7 @@ describe 'Profile API' do
 
       before { get '/api/v1/profiles', params: { format: :json, access_token: access_token.token } }
 
-      it 'returns status 200' do
-        expect(response).to be_success
-      end
+      it_behaves_like 'API successfully'
 
       it 'renders list of users' do
         items = JSON.parse(response.body)
@@ -89,6 +69,10 @@ describe 'Profile API' do
           end
         end
       end
+    end
+
+    def do_request(options = {})
+      get '/api/v1/profiles', params: { format: :json }.merge(options)
     end
   end
 end
