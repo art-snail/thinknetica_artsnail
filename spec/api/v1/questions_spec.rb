@@ -11,9 +11,9 @@ describe 'Question API' do
       let(:question) { questions.first }
       let!(:answer) { create(:answer, question: question) }
       let(:question_path) { '0/' }
-      let(:answer_path) { '0/answers/0/' }
+      let(:answer_path) { '0/answers' }
 
-      before {get '/api/v1/questions', params: {format: :json, access_token: access_token.token}}
+      before { get '/api/v1/questions', params: { format: :json, access_token: access_token.token } }
 
       it_behaves_like 'API successfully'
       it_behaves_like 'data-returnable'
@@ -24,13 +24,7 @@ describe 'Question API' do
             to be_json_eql(question.title.truncate(10).to_json).at_path('0/short_title')
       end
 
-      context 'answers' do
-        it 'included in question object' do
-          expect(response.body).to have_json_size(1).at_path("0/answers")
-        end
-
-        it_behaves_like 'answerable'
-      end
+      it_behaves_like 'answers-included'
     end
 
     def do_request(options = {})
@@ -51,47 +45,21 @@ describe 'Question API' do
 
     context 'authorized' do
       let(:question_path) { '' }
+      let(:answer_path) { 'answers' }
+      let(:comment_path) { 'comments' }
+      let(:attachment_path) { 'attachments' }
+
       before {get "/api/v1/questions/#{question.id}", params: {format: :json, access_token: access_token.token}}
 
       it_behaves_like 'API successfully'
       it_behaves_like 'questionable'
+      it_behaves_like 'answers-included'
+      it_behaves_like 'comments-included'
+      it_behaves_like 'attachments-included'
 
       it 'question object contains short_title' do
         expect(response.body).
-            to be_json_eql(question.title.truncate(10).to_json).at_path('short_title')
-      end
-
-      context 'answers' do
-        let(:answer_path) { 'answers/0/' }
-        it 'included in question object' do
-          expect(response.body).to have_json_size(1).at_path('answers')
-        end
-
-        it_behaves_like 'answerable'
-      end
-
-      context 'comments' do
-        it 'included in question object' do
-          expect(response.body).to have_json_size(1).at_path('comments')
-        end
-
-        %w(id user_id body created_at updated_at).each do |attr|
-          it "contains #{attr}" do
-            expect(response.body).
-                to be_json_eql(comment.send(attr.to_sym).to_json).at_path("comments/0/#{attr}")
-          end
-        end
-      end
-
-      context 'attachments' do
-        it 'included in question object' do
-          expect(response.body).to have_json_size(1).at_path('attachments')
-        end
-
-        it "contains file_url" do
-          expect(response.body).
-              to be_json_eql(attachment.file.url.to_json).at_path("attachments/0/file/url")
-        end
+        to be_json_eql(question.title.truncate(10).to_json).at_path('short_title')
       end
     end
 
@@ -104,6 +72,8 @@ describe 'Question API' do
     it_behaves_like 'API Authenticable'
 
     context 'authorized' do
+      let(:model) { Question }
+
       context 'with valid attributes' do
         let(:request) { post "/api/v1/questions", params: {
                                  question: attributes_for(:question),
@@ -113,19 +83,7 @@ describe 'Question API' do
         let(:question) { Question.last }
         let(:question_path) { '' }
 
-        it 'return status 201' do
-          request
-          expect(response.status).to eq 201
-        end
-
-        it 'creates new question' do
-          expect { request }.to change(Question, :count).by(1)
-        end
-
-        it 'sets a current_user to the new question' do
-          request
-          expect(response.body).to be_json_eql(access_token.resource_owner_id).at_path("user_id")
-        end
+        it_behaves_like 'creatable'
 
         context 'attr' do
           before { request }
@@ -134,7 +92,6 @@ describe 'Question API' do
       end
 
       context 'with invalid attributes' do
-        let(:model) { Question }
         let(:request) { post "/api/v1/questions", params: {
             question: attributes_for(:invalid_question),
             access_token: access_token.token,
