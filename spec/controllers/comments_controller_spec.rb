@@ -5,51 +5,31 @@ RSpec.describe CommentsController, type: :controller do
 
   describe 'POST #create' do
     sign_in_user
+    let(:request) { post :create,
+                        params: { comment: attributes_for(:comment),
+                                 user: @user,
+                                 question_id: question,
+                                 commentable: 'question',
+                                 format: :js } }
+    let(:action) { :create }
 
     context 'valid data' do
-      context 'question' do
-        it 'a new comment is stored in the database' do
-          expect { post :create,
-                        params: { comment: attributes_for(:comment, commentable: question),
-                                  user: @user,
-                                  question_id: question,
-                                  commentable: 'question',
-                                  format: :js } }
-              .to change(question.comments, :count).by(1)
-        end
-
-        it 'render template' do
-          post :create, params: { comment: attributes_for(:comment, commentable: question),
-                         user: @user,
-                         question_id: question,
-                         commentable: 'question',
-                         format: :js }
-          expect(response).to render_template :create
-        end
-      end
+      let(:model) { question.comments }
+      
+      it_behaves_like 'creatable'
+      it_behaves_like 'render-templatable'
     end
 
     context 'invalid data' do
-      context 'question' do
-        it 'the new comment is not stored in the database' do
-          expect { post :create,
-                        params: { comment: attributes_for(:invalid_comment, commentable: question),
-                                  user: @user,
-                                  question_id: question,
-                                  commentable: 'question',
-                                  format: :js } }
-              .to_not change(Comment, :count)
-        end
+      let(:request) { post :create, params: { comment: attributes_for(:invalid_comment),
+                                            user: @user,
+                                            question_id: question,
+                                            commentable: 'question',
+                                            format: :js } }
+      let(:model) { Comment }
 
-        it 'render template' do
-          post :create, params: { comment: attributes_for(:invalid_comment, commentable: question),
-                                  user: @user,
-                                  question_id: question,
-                                  commentable: 'question',
-                                  format: :js }
-          expect(response).to render_template :create
-        end
-      end
+      it_behaves_like 'non-changeable'
+      it_behaves_like 'render-templatable'
     end
   end
 end

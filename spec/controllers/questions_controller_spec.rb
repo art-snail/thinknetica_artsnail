@@ -10,7 +10,7 @@ RSpec.describe QuestionsController, type: :controller do
 
   describe 'GET #index' do
     let(:questions) { create_list(:question, 2) }
-    let(:action) { 'index' }
+    let(:action) { :index }
 
     before { get :index }
 
@@ -22,7 +22,7 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #show' do
-    let(:action) { 'show' }
+    let(:action) { :show }
 
     before { get :show, params: { id: question } }
 
@@ -38,7 +38,7 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #new' do
-    let(:action) { 'new' }
+    let(:action) { :new }
     sign_in_user
 
     before { get :new }
@@ -54,7 +54,7 @@ RSpec.describe QuestionsController, type: :controller do
     sign_in_user
 
     let(:question) { create(:question, user: @user) }
-    let(:action) { 'edit' }
+    let(:action) { :edit }
 
     before { get :edit, params: { id: question } }
 
@@ -81,7 +81,7 @@ RSpec.describe QuestionsController, type: :controller do
 
     context 'with invalid attributes' do
       let(:request) { post :create, params: { question: attributes_for(:invalid_question) } }
-      let(:action) { 'new' }
+      let(:action) { :new }
 
       it_behaves_like 'non-changeable'
       it_behaves_like 'render-templatable'
@@ -92,7 +92,7 @@ RSpec.describe QuestionsController, type: :controller do
     let(:question) { create(:question, user: @user) }
     let(:request) { patch :update,
                           params: { id: question, question: attributes_for(:question), format: :js } }
-    let(:action) { 'update' }
+    let(:action) { :update }
 
     sign_in_user
 

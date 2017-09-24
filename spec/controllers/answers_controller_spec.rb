@@ -11,7 +11,7 @@ RSpec.describe AnswersController, type: :controller do
   describe 'POST #create' do
     sign_in_user
     let(:request) { post :create, params: { answer: attributes_for(:answer), question_id: question, format: :js } }
-    let(:action) { 'create' }
+    let(:action) { :create }
     let(:model) { question.answers }
 
     context 'valid data' do
@@ -28,7 +28,6 @@ RSpec.describe AnswersController, type: :controller do
     context 'not valid data' do
       let(:request) { post :create,
                            params: { answer: attributes_for(:invalid_answer), question_id: question, format: :js } }
-      let(:action) { 'create' }
 
       it_behaves_like 'non-changeable'
       it_behaves_like 'render-templatable'
@@ -41,7 +40,7 @@ RSpec.describe AnswersController, type: :controller do
     let(:request) { patch :update,
                           params: { id: answer,
                                    question_id: question, answer: attributes_for(:answer), format: :js } }
-    let(:action) { 'update' }
+    let(:action) { :update }
 
     it 'assigns the requested answer to @answer' do
       request
@@ -63,14 +62,11 @@ RSpec.describe AnswersController, type: :controller do
     sign_in_user
     let!(:answer) { create(:answer, question: question, user: @user) }
     let(:request) { delete :destroy, params: { question_id: question, id: answer, format: :js } }
+    let(:action) { :destroy }
 
     context 'The author removes the answer' do
       it_behaves_like 'destroyable'
-
-      it 'render destroy template' do
-        request
-        expect(response).to render_template :destroy
-      end
+      it_behaves_like 'render-templatable'
     end
 
     context 'Not the author tries to remove the answer' do
@@ -85,6 +81,8 @@ RSpec.describe AnswersController, type: :controller do
     let!(:question2) { create :question, user: @user }
     let!(:answer) { create(:answer, question: question2) }
     let(:request) { patch :set_best, params: { id: answer, format: :js } }
+    let(:action) { :set_best }
+
     context 'Authenticated user in author' do
       it 'The author chooses the best answer' do
         request
@@ -92,10 +90,7 @@ RSpec.describe AnswersController, type: :controller do
         expect(answer.best).to eq true
       end
 
-      it 'render set_best template' do
-        request
-        expect(response).to render_template :set_best
-      end
+      it_behaves_like 'render-templatable'
     end
 
     context 'Authenticated user is not author' do
