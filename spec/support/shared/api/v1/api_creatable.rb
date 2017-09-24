@@ -1,4 +1,4 @@
-shared_examples_for 'creatable' do
+shared_examples_for 'API creatable' do
   it 'return status 201' do
     request
     expect(response.status).to eq 201

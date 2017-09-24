@@ -74,7 +74,7 @@ describe 'Answer API' do
                                        access_token: access_token.token,
                                        format: :json } }
 
-        it_behaves_like 'creatable'
+        it_behaves_like 'API creatable'
 
         context 'attr' do
           let(:answer) { Answer.last }

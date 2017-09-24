@@ -83,7 +83,7 @@ describe 'Question API' do
         let(:question) { Question.last }
         let(:question_path) { '' }
 
-        it_behaves_like 'creatable'
+        it_behaves_like 'API creatable'
 
         context 'attr' do
           before { request }
