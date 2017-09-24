@@ -15,21 +15,14 @@ describe 'Answer API' do
       let!(:attachment) { create(:attachment,
                                  attachable: answer,
                                  file: Rails.root.join("spec/spec_helper.rb").open) }
+      let(:answer_path) { '0/' }
 
       before { get "/api/v1/questions/#{question.id}/answers",
                    params: { format: :json, access_token: access_token.token } }
 
       it_behaves_like 'API successfully'
-
-      it 'returns list of answers' do
-        expect(response.body).to have_json_size(2)
-      end
-
-      %w(id body created_at updated_at).each do |attr|
-        it "answer object contains #{attr}" do
-          expect(response.body).to be_json_eql(answer.send(attr.to_sym).to_json).at_path("0/#{attr}")
-        end
-      end
+      it_behaves_like 'data-returnable'
+      it_behaves_like 'answerable'
 
       context 'comments' do
         it 'included in question object' do
@@ -68,6 +61,7 @@ describe 'Answer API' do
     let!(:attachment) { create(:attachment,
                                attachable: answer,
                                file: Rails.root.join("spec/spec_helper.rb").open) }
+    let(:answer_path) { '' }
 
     it_behaves_like 'API Authenticable'
 
@@ -76,12 +70,7 @@ describe 'Answer API' do
                    params: { format: :json, access_token: access_token.token } }
 
       it_behaves_like 'API successfully'
-
-      %w(id body created_at updated_at).each do |attr|
-        it "answer object contains #{attr}" do
-          expect(response.body).to be_json_eql(answer.send(attr.to_sym).to_json).at_path("#{attr}")
-        end
-      end
+      it_behaves_like 'answerable'
 
       context 'comments' do
         it 'included in answer object' do
@@ -117,63 +106,43 @@ describe 'Answer API' do
 
     context 'authorized' do
       context 'with valid attributes' do
-        it 'return status 201' do
-          post "/api/v1/questions/#{question.id}/answers",
-               params: { answer: attributes_for(:answer),
-                         access_token: access_token.token,
-                         format: :json }
+        let(:request) { post "/api/v1/questions/#{question.id}/answers",
+                             params: { answer: attributes_for(:answer),
+                                       access_token: access_token.token,
+                                       format: :json } }
 
+        it 'return status 201' do
+          request
           expect(response.status).to eq 201
         end
 
         it 'creates new answer' do
-          expect { post "/api/v1/questions/#{question.id}/answers",
-                        params: { answer: attributes_for(:answer),
-                                  access_token: access_token.token,
-                                  format: :json } }.
-              to change(Answer, :count).by(1)
+          expect { request }.to change(Answer, :count).by(1)
         end
 
         it 'sets a current_user to the new answer' do
-          post "/api/v1/questions/#{question.id}/answers",
-               params: { answer: attributes_for(:answer),
-                         access_token: access_token.token,
-                         format: :json }
-
+          request
           expect(response.body).to be_json_eql(access_token.resource_owner_id).at_path("user_id")
         end
 
         context 'attr' do
-          before { post "/api/v1/questions/#{question.id}/answers",
-                        params: { answer: attributes_for(:answer),
-                                  access_token: access_token.token,
-                                  format: :json } }
+          let(:answer) { Answer.last }
+          let(:answer_path) { '' }
 
-          %w(id body user_id created_at updated_at).each do |attr|
-            it "answer object contains #{attr}" do
-              expect(response.body).to be_json_eql(Answer.last.send(attr.to_sym).to_json).at_path("#{attr}")
-            end
-          end
+          before { request }
+
+          it_behaves_like 'answerable'
         end
       end
 
       context 'with invalid attributes' do
-        it 'returns status 422' do
-          post "/api/v1/questions/#{question.id}/answers",
-               params: { answer: attributes_for(:invalid_answer),
-                         access_token: access_token.token,
-                         format: :json }
+        let(:model) { Answer }
+        let(:request) { post "/api/v1/questions/#{question.id}/answers",
+                             params: { answer: attributes_for(:invalid_answer),
+                                       access_token: access_token.token,
+                                       format: :json } }
 
-          expect(response.status).to eq 422
-        end
-
-        it 'does not create new answer' do
-          expect { post "/api/v1/questions/#{question.id}/answers",
-                        params: { answer: attributes_for(:invalid_answer),
-                                  access_token: access_token.token,
-                                  format: :json } }.
-              to_not change(Answer, :count)
-        end
+        it_behaves_like 'non-creatable'
       end
     end
 
