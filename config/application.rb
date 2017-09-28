@@ -10,6 +10,8 @@ Bundler.require(*Rails.groups)
 
 module Think
   class Application < Rails::Application
+    config.active_job.queue_adapter = :sidekiq
+
     Sidekiq::Extensions.enable_delay!
 
     # Use the responders controller from the responders gem
