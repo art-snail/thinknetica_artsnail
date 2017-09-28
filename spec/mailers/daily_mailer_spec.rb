@@ -4,6 +4,7 @@ RSpec.describe DailyMailer, type: :mailer do
   describe "digest" do
     let(:user) { create(:user) }
     let(:mail) { DailyMailer.digest(user) }
+    let!(:questions) { create_list(:question, 2) }
 
     it "renders the headers" do
       expect(mail.subject).to eq("Digest")
@@ -12,7 +13,8 @@ RSpec.describe DailyMailer, type: :mailer do
     end
 
     it "renders the body" do
-      expect(mail.body.encoded).to match("Hi")
+      expect(mail.body.encoded).to include(questions.first.title)
+      expect(mail.body.encoded).to include(questions.last.title)
     end
   end
 
