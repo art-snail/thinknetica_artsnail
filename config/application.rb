@@ -10,6 +10,8 @@ Bundler.require(*Rails.groups)
 
 module Think
   class Application < Rails::Application
+    Sidekiq::Extensions.enable_delay!
+
     # Use the responders controller from the responders gem
     config.app_generators.scaffold_controller :responders_controller
 
