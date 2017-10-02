@@ -1,0 +1,11 @@
+#spinx-search.row
+  .col
+    = form_tag(search_path, method: 'get') do
+      = label_tag :object, 'Search for: '
+      = select_tag(:object,
+              options_for_select([['All', 'all'],
+                      ['Question', 'question'], ['Answer', 'answer'], ['Comment', 'comment'], ['User', 'user']]),
+              class: 'select')
+      = label_tag :text, 'Найти: '
+      = text_field_tag :text
+      = submit_tag 'Search'

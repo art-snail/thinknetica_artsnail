@@ -43,4 +43,6 @@ Rails.application.routes.draw do
       end
     end
   end
+
+  get '/search', to: 'search#index', as: 'search'
 end

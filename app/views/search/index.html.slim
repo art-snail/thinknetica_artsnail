@@ -1,0 +1,15 @@
+h2 Результат поиска
+
+- if @result.count == 0
+  p Nothing found.
+- else
+  - @result.each do |item|
+    p
+      - if item[:type] == 'User'
+        = item[:type]
+      - else
+        = link_to item[:type], question_path(item[:id])
+      br
+      = item[:body]
+
+/p= @result[0]
