@@ -4,6 +4,7 @@ class SearchController < ApplicationController
   skip_authorization_check
 
   def index
-    respond_with search(params[:object], params[:text])
+    respond_with(@result = Searcher.search(params[:object], params[:text]))
+    # respond_with search(params[:object], params[:text])
   end
 end
